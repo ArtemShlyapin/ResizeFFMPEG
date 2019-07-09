@@ -1,22 +1,23 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import numpy as np
 import cv2
 import os
 
-j = 1
+j = 0
 
-while True:
-    if (os.path.isfile('new_' + '{n:04d}'.format(n = j) + '.avi')) != True:
+while True: #search for last resized file
+    if (os.path.isfile('new_' + '{n:04d}'.format(n = j) + '.avi')) != True: 
         break
     j += 1
 
 while True:
-    if (os.path.isfile('new_' + '{n:04d}'.format(n = j - 1) + '.avi')):
+    if (os.path.isfile('new_' + '{n:04d}'.format(n = j + 1) + '.avi')): #check for files to play
         if (os.path.isfile('new_' + '{n:04d}'.format(n = j) + '.avi')):
             
-            cap = cv2.VideoCapture('new_' + '{n:04d}'.format(n = j - 1) + '.avi')
+            cap = cv2.VideoCapture('new_' + '{n:04d}'.format(n = j) + '.avi')
 
-            while(cap.isOpened()):
+            while(cap.isOpened()): #playing
+
                 ret, frame = cap.read()
                 if ret==True:
                     cv2.imshow('framte',frame)
@@ -29,4 +30,3 @@ while True:
             cap.release()
             cv2.destroyAllWindows()
             j += 1
-            print(j)

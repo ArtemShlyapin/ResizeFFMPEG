@@ -1,42 +1,37 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import numpy as np
 import cv2
 import os
 
-cap = cv2.VideoCapture(0)
 i = 0
 j = 0
 
-while True:
+while True: #search for already recorded files to save order of recording
     if (os.path.isfile('output_' + '{n:04d}'.format(n = j) + '.avi')) != True:
         break
     j += 1
 
-# Define the codec and create VideoWriter object
-fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-out = cv2.VideoWriter('output_' + '{n:04d}'.format(n=j) + '.avi',fourcc, 25.0, (640,480))
-#out = cv2.VideoWriter('output.jpeg', -1, 2.0, (640,480))
+codec_DVIX = cv2.VideoWriter_fourcc(*'DIVX') 
+out = cv2.VideoWriter('output_' + '{n:04d}'.format(n=j) + '.avi',codec_DVIX, 25.0, (640,480)) # output_0000.avi, DVIX codec, 25fps 640x480 size, 
 
-while (cap.isOpened()):
-    i += 1
-    print(i)
+cap = cv2.VideoCapture(0) #initializing webcam of laptop
+
+while (cap.isOpened()): #recording
+
     ret, frame = cap.read()
-    print(frame.__class__) #<type 'numpy.ndarray'>
     if ret==True:
-        frame = cv2.flip(frame,1)
-
-        # write the flipped frame
-        #frame = fmpeg.input('output.avi4')
-        if i > 100:
+    
+        i += 1
+        if i > 100:  #start new .avi file every 100 frames
             j += 1
             i = 0
-            out = cv2.VideoWriter('output_' + '{n:04d}'.format(n=j) + '.avi',fourcc, 25.0, (640,480))
+            out = cv2.VideoWriter('output_' + '{n:04d}'.format(n=j) + '.avi',codec_DVIX, 25.0, (640,480)) #updating filename, seems like output_0000.avi
+        
         out.write(frame)
 
-        cv2.imshow('fram',frame)
-        #frame = fmpeg.input('output.avi4')
-        #cv2.imshow('frame',frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        cv2.imshow('fram',frame) 
+
+        if cv2.waitKey(1) & 0xFF == ord('q'): # 1ms delay to push stop-button "Q"
             break
     else:
         break
