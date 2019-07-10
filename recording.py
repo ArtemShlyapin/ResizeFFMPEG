@@ -29,7 +29,7 @@ while (cap.isOpened()): #recording
         
         out.write(frame)
 
-        cv2.imshow('fram',frame) 
+        cv2.imshow('record',frame) 
 
         if cv2.waitKey(1) & 0xFF == ord('q'): # 1ms delay to push stop-button "Q"
             break
