@@ -20,9 +20,9 @@ while True:
 
                 ret, frame = cap.read()
                 if ret==True:
-                    cv2.imshow('framte',frame)
+                    cv2.imshow('stream',frame)
 
-                    if cv2.waitKey(30) & 0xFF == ord('q'):
+                    if cv2.waitKey(33) & 0xFF == ord('q'): # 33ms delay between showing frames and wait time to push stop-button "Q" (fps ~ 30)
                         break
                 else:
                     break
